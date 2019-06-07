@@ -22,12 +22,6 @@
             "defaultValue": "subnet2",
             "type": "string"
         },
-        "vmaIpAddress": {
-          "type": "string",
-          "defaultValue": "10.100.100.4",
-          "metadata": {
-          "description": "IP address for virtual appliance."
-        },
         "subnet2Prefix": {
             "defaultValue": "192.168.100.64/26",
             "type": "string"
