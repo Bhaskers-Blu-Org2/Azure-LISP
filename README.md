@@ -135,7 +135,7 @@ All previous considerations of traffic flows assume that the only LISP-enabled d
 https://www.lisp4.net/
 
 # Stretched Intra Subnet Routing
-Currently, for intra-subnet routing from on-premises to Azure, additional configuration is required.  For the Azure fabric to forward a packet to the CSR to an IP back on-premises within the same stretched subnet, it requires a secondary IP on the NIC attached to the CSR interface attached to the stretched subnet for each IP within the same stretched subnet still on-premises.  There is work being done to automate this via the LISP Map-Server to programmatically program Azure API to define secondary IPs based on what IPs are still on-premises within the stretched subnet.  
+Currently, for intra-subnet routing from Azure to on-premises, additional configuration is required.  For the Azure fabric to forward a packet to the CSR to an IP back on-premises within the same stretched subnet, it requires a secondary IP on the NIC attached to the CSR interface attached to the stretched subnet for each IP within the same stretched subnet still on-premises.  This additional configuration is not required on-premises.  There is work being done to automate this via the LISP Map-Server to programmatically program Azure API to define secondary IPs based on what IPs are still on-premises within the stretched subnet.  
 
 ![alt text](https://github.com/jgmitter/images/blob/master/Secondaryip.png)
 
