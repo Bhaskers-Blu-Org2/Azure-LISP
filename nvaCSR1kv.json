@@ -72,13 +72,13 @@
         "storageApiVersion": "2018-07-01",
         "nvaPipName": "[concat(parameters('nvaName'), '-pip')]",
         "vm1PipName": "[concat(parameters('vm1Name'), '-pip1')]",
-		"vm2PipName": "[concat(parameters('vm2Name'), '-pip2')]",
+	"vm2PipName": "[concat(parameters('vm2Name'), '-pip2')]",
         "pipType": "Static",
         "pipSku": "Basic",
         "nvaNic1Name": "[concat(parameters('nvaName'), '-nic1')]",
-		"nvaNic2Name": "[concat(parameters('nvaName'), '-nic2')]",
+	"nvaNic2Name": "[concat(parameters('nvaName'), '-nic2')]",
         "vm1NicName": "[concat(parameters('vm1Name'), '-nic1')]",
-		"vm2NicName": "[concat(parameters('vm2Name'), '-nic2')]",
+	"vm2NicName": "[concat(parameters('vm2Name'), '-nic2')]",
         "nvaNsgName": "[concat(parameters('nvaName'), '-nsg')]",
         "vm1NsgName": "[concat(parameters('vm1Name'), '-nsg')]",
         "vm2NsgName": "[concat(parameters('vm2Name'), '-nsg')]",
@@ -274,7 +274,7 @@
                 ],
 				"enableAcceleratedNetworking": false,
                 "enableIPForwarding": true,
-                "primary": true,
+                "primary": false,
                 "tapConfigurations": [],
 				
                 "networkSecurityGroup": {
@@ -333,8 +333,8 @@
                     "imageReference": {
                         "publisher": "cisco",
                         "offer": "cisco-csr-1000v",
-                        "sku": "16_9-byol",
-                        "version": "16.9.120180924"
+                        "sku": "16_10-byol",
+                        "version": "16.10.120190108"
                     }
                 },
                 "networkProfile": {
@@ -366,7 +366,7 @@
                 }
             },
             "plan": {
-                "name": "16_9-byol",
+                "name": "16_10-byol",
                 "publisher": "cisco",
                 "product": "cisco-csr-1000v"
             },
