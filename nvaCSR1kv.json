@@ -66,10 +66,10 @@
             "type": "string",
             "defaultValue": "lab-user"
         },
-	 "UDRTest": {
+	    "RouteToStretchedSubnet": {
       	    "type": "string",
             "defaultValue": "UDR-FrontEnd"
-      },
+        },
         "adminPassword": {
             "type": "securestring"
         }
@@ -140,19 +140,9 @@
                 }
             }
         ],
-        "routes": [
-            {
-              "name": "RouteToStretchedSubnet",
-              "properties": {
-                "addressPrefix": "[parameters('subnet2Prefix')]",
-                "nextHopType": "VirtualAppliance",
-                "nextHopIpAddress": "[parameters('vmaIpAddress')]"
-              }
-            }
-          ],
         "nvaNsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('nvaNsgName'))]",
         "vm1NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm1NsgName'))]",
-	    "subnetUdrId": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', variables('routes'))]",
+	    "subnetUdrId": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('RouteToStretchedSubnet'))]",
         "vm2NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm2NsgName'))]",
         "vm1DiskName": "[concat(parameters('vm1Name'), '-disk')]",
         "vm2DiskName": "[concat(parameters('vm2Name'), '-disk2')]",
@@ -180,6 +170,27 @@
         "customScriptCmd": "[concat('chmod 666 ', variables('customScript'), ' && /bin/sh ./', variables('customScript'))]"
     },
     "resources": [
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/routeTables",
+            "name": "[parameters('RouteToStretchedSubnet')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+              "displayName": "Route Table - Back End"
+            },
+            "properties": {
+              "routes": [
+                {
+                  "name": "RouteToFrontEnd",
+                  "properties": {
+                    "addressPrefix": "[parameters('subnet2Prefix')]",
+                    "nextHopType": "VirtualAppliance",
+                    "nextHopIpAddress": "[parameters('vmaIpAddress')]"
+                  }
+                }
+              ]
+            }
+          },
         {
             "comments": "Create Vnet with three subnets",
             "type": "Microsoft.Network/virtualNetworks",
