@@ -25,9 +25,9 @@
                         "vnetPrefix": "10.100.0.0/16",
                         "TestSubnet": "10.100.0.0/24",
                         "Outside": "10.100.200.0/24",
-			"Inside": "10.100.100.0/24",
+			            "Inside": "10.100.100.0/24",
                         "vm1Name": "onprem-vm",
-            		"vm2Name": "LISP-TestVM",
+            	    	"vm2Name": "LISP-TestVM",
                         "nvaName": "onprem-pxtr"
                     },
                     {
@@ -77,7 +77,7 @@
                     "vm1Size": {"value": "Standard_B1s"},
                     "vm2Name": {"value": "[parameters('config')['vnets'][0]['vm2Name']]"},
                     "vm2Size": {"value": "Standard_B1s"},
-		    "RouteToStretchedSubnet": {"value": "RouteToStretchedSubnet"}
+		            "RouteToStretchedSubnet": {"value": "RouteToStretchedSubnet"}
                 }
             },
             "dependsOn": [
@@ -105,9 +105,9 @@
                     "subnet2Prefix": {"value": "[parameters('config')['vnets'][1]['Outside']]"},
                     "nvaName": {"value": "[parameters('config')['vnets'][1]['nvaName']]"},
                     "nvaSize": {"value": "Standard_DS3_v2"},
-		    "vmName": {"value": "[parameters('config')['vnets'][1]['vmName']]"},
+		            "vmName": {"value": "[parameters('config')['vnets'][1]['vmName']]"},
                     "vmSize": {"value": "Standard_B1s"},
-	            "UDRInside": {"value": "UDR-Inside"}
+	                "UDRInside": {"value": "UDR-Inside"}
                 }
             },
             "dependsOn": [
