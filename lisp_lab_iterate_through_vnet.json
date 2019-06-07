@@ -107,7 +107,7 @@
                     "nvaSize": {"value": "Standard_DS3_v2"},
 		    "vmName": {"value": "[parameters('config')['vnets'][1]['vmName']]"},
                     "vmSize": {"value": "Standard_B1s"},
-	            "UDRInside": { "value": "UDR-Inside" }
+	            "UDRInside": {"value": "UDR-Inside"}
                 }
             },
             "dependsOn": [
