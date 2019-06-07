@@ -267,14 +267,15 @@
                                 "id": "[variables('subnet1Ref')]"
                             },
 							"primary": false,
+		            "privateIPAddress": "10.100.100.4",
                             "privateIPAddressVersion": "IPv4",
-                            "privateIPAllocationMethod": "Dynamic"
+                            "privateIPAllocationMethod": "Static"
                         }
                     }
                 ],
 				"enableAcceleratedNetworking": false,
                 "enableIPForwarding": true,
-                "primary": false,
+                "primary": true,
                 "tapConfigurations": [],
 				
                 "networkSecurityGroup": {
