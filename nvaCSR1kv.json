@@ -176,7 +176,7 @@
             "name": "[parameters('RouteToStretchedSubnet')]",
             "location": "[resourceGroup().location]",
             "tags": {
-              "displayName": "Route Table - Back End"
+              "displayName": "Route Table - Stretched Subnet"
             },
             "properties": {
               "routes": [
@@ -221,8 +221,8 @@
                         "properties": {
                             "addressPrefix": "[parameters('subnet3Prefix')]"
                         },
-			            "routeTable": {
-                            "id": "[variables('subnetUdrId')]"
+			                "routeTable": {
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('RouteToStretchedSubnet'))]"
               }						
                     }
                 ]
@@ -451,7 +451,8 @@
                             "subnet": {
                                 "id": "[variables('subnet1Ref')]"
                             },
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAllocationMethod": "Static",
+                            "privateIPAddress": "10.100.100.20",
                             "publicIpAddress": {
                                 "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('vm1PipName'))]"
                             }
