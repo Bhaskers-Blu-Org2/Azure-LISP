@@ -80,28 +80,17 @@
         "storageApiVersion": "2018-07-01",
         "nvaPipName": "[concat(parameters('nvaName'), '-pip')]",
         "vm1PipName": "[concat(parameters('vm1Name'), '-pip1')]",
-	"vm2PipName": "[concat(parameters('vm2Name'), '-pip2')]",
+	    "vm2PipName": "[concat(parameters('vm2Name'), '-pip2')]",
         "pipType": "Static",
         "pipSku": "Basic",
         "nvaNic1Name": "[concat(parameters('nvaName'), '-nic1')]",
-	"nvaNic2Name": "[concat(parameters('nvaName'), '-nic2')]",
+	    "nvaNic2Name": "[concat(parameters('nvaName'), '-nic2')]",
         "vm1NicName": "[concat(parameters('vm1Name'), '-nic1')]",
-	"vm2NicName": "[concat(parameters('vm2Name'), '-nic2')]",
+	    "vm2NicName": "[concat(parameters('vm2Name'), '-nic2')]",
         "nvaNsgName": "[concat(parameters('nvaName'), '-nsg')]",
         "vm1NsgName": "[concat(parameters('vm1Name'), '-nsg')]",
-	"udr1Name": "[concat(parameters('subnet3Name'), '-udr')]",
+	    "udr1Name": "[concat(parameters('subnet3Name'), '-udr')]",
         "vm2NsgName": "[concat(parameters('vm2Name'), '-nsg')]",
-        "routes": [
-          {
-            "name": "RouteToStretchedSubnet",
-            "properties": {
-              "addressPrefix": "[parameters('subnet2Prefix')]",
-              "nextHopType": "VirtualAppliance",
-              "nextHopIpAddress": "[parameters('vmaIpAddress')]"
-            }
-          }
-        ]
-    },
         "nvaNsgRules": [
             {
                 "name": "SSH",
@@ -153,8 +142,8 @@
         ],
         "nvaNsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('nvaNsgName'))]",
         "vm1NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm1NsgName'))]",
-	"vm1NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm1NsgName'))]",
-	"subnetUdrId": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', variables('udr1Name'))]",
+	    "vm1NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm1NsgName'))]",
+	    "subnetUdrId": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', variables('udr1Name'))]",
         "vm2NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm2NsgName'))]",
         "vm1DiskName": "[concat(parameters('vm1Name'), '-disk')]",
         "vm2DiskName": "[concat(parameters('vm2Name'), '-disk2')]",
@@ -179,8 +168,18 @@
 		"customScript": "ubuntuConfig.bash",
 		"thisTemplateUri": "[deployment().properties.templateLink.uri]",
         "customScriptUri": "[uri(variables('thisTemplateUri'), variables('customScript'))]",
-        "customScriptCmd": "[concat('chmod 666 ', variables('customScript'), ' && /bin/sh ./', variables('customScript'))]"
-   },
+        "customScriptCmd": "[concat('chmod 666 ', variables('customScript'), ' && /bin/sh ./', variables('customScript'))]",
+        "routes": [
+            {
+              "name": "RouteToStretchedSubnet",
+              "properties": {
+                "addressPrefix": "[parameters('subnet2Prefix')]",
+                "nextHopType": "VirtualAppliance",
+                "nextHopIpAddress": "[parameters('vmaIpAddress')]"
+              }
+            }
+          ]
+    },
     "resources": [
         {
             "comments": "Create Vnet with three subnets",
@@ -212,8 +211,8 @@
                         "properties": {
                             "addressPrefix": "[parameters('subnet3Prefix')]"
                         },
-			    "routeTable": {
-                                "id": "[variables('subnetUdrId')]"
+			            "routeTable": {
+                            "id": "[variables('routes')]"
               }						
                     }
                 ]
