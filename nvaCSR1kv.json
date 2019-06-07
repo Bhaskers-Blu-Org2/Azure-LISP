@@ -65,7 +65,6 @@
 	 "UDRTest": {
       	    "type": "string",
             "defaultValue": "UDR-FrontEnd",
-            "metadata": {
             "description": "Name for test subnet route table."
       },
         "adminPassword": {
