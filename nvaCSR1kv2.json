@@ -46,7 +46,7 @@
             "type": "string",
             "defaultValue": "lab-user"
         },
-	"frontEndRouteTableName": {
+	"UDRInside": {
       	    "type": "string",
             "defaultValue": "UDR-FrontEnd",
             "metadata": {
