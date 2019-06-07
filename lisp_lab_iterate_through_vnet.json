@@ -77,7 +77,7 @@
                     "vm1Size": {"value": "Standard_B1s"},
                     "vm2Name": {"value": "[parameters('config')['vnets'][0]['vm2Name']]"},
                     "vm2Size": {"value": "Standard_B1s"},
-		    "TestUDR": { "value": "UDR-Test" }
+		    "UDRTest": { "value": "UDR-Test" }
                 }
             },
             "dependsOn": [
@@ -107,7 +107,7 @@
                     "nvaSize": {"value": "Standard_DS3_v2"},
 		    "vmName": {"value": "[parameters('config')['vnets'][1]['vmName']]"},
                     "vmSize": {"value": "Standard_B1s"},
-	            "InsideUDR": { "value": "UDR-Inside" }
+	            "UDRInside": { "value": "UDR-Inside" }
                 }
             },
             "dependsOn": [
