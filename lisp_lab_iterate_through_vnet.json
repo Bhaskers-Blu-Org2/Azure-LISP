@@ -77,7 +77,7 @@
                     "vm1Size": {"value": "Standard_B1s"},
                     "vm2Name": {"value": "[parameters('config')['vnets'][0]['vm2Name']]"},
                     "vm2Size": {"value": "Standard_B1s"},
-		    "UDRTest": {"value": "UDR-Test"}
+		    "RouteToStretchedSubnet": {"value": "RouteToStretchedSubnet"}
                 }
             },
             "dependsOn": [
