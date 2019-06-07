@@ -22,6 +22,12 @@
             "defaultValue": "subnet2",
             "type": "string"
         },
+        "vmaIpAddress": {
+          "type": "string",
+          "defaultValue": "10.100.100.4",
+          "metadata": {
+          "description": "IP address for virtual appliance."
+      },
         "subnet2Prefix": {
             "defaultValue": "192.168.100.64/26",
             "type": "string"
@@ -45,7 +51,7 @@
         "vm1Name": {
             "type": "string",
             "defaultValue": "myVm1"
-        },
+        },	
         "vm1Size": {
             "type": "string",
             "defaultValue": "Standard_B1s"
@@ -87,7 +93,20 @@
 	"vm2NicName": "[concat(parameters('vm2Name'), '-nic2')]",
         "nvaNsgName": "[concat(parameters('nvaName'), '-nsg')]",
         "vm1NsgName": "[concat(parameters('vm1Name'), '-nsg')]",
+	"udr1Name": "[concat(parameters('subnet3Name'), '-udr')]",
         "vm2NsgName": "[concat(parameters('vm2Name'), '-nsg')]",
+        "routes": [
+          {
+            "name": "RouteToStretchedSubnet",
+            "properties": {
+              "addressPrefix": "[parameters('subnet2Prefix')]",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[parameters('vmaIpAddress')]"
+            }
+          }
+        ]
+      }
+    },
         "nvaNsgRules": [
             {
                 "name": "SSH",
@@ -139,6 +158,8 @@
         ],
         "nvaNsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('nvaNsgName'))]",
         "vm1NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm1NsgName'))]",
+	"vm1NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm1NsgName'))]",
+	"subnetUdrId": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', variables('udr1Name'))]",
         "vm2NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm2NsgName'))]",
         "vm1DiskName": "[concat(parameters('vm1Name'), '-disk')]",
         "vm2DiskName": "[concat(parameters('vm2Name'), '-disk2')]",
@@ -195,7 +216,10 @@
                         "name": "[parameters('subnet3Name')]",
                         "properties": {
                             "addressPrefix": "[parameters('subnet3Prefix')]"
-                        }
+                        },
+			    "routeTable": {
+                                "id": "[variables('subnetUdrId')]"
+              }						
                     }
                 ]
             },
