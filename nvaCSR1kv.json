@@ -75,7 +75,7 @@
         }
     },
     "variables": {
-        "networkApiVersion": "2018-04-01",
+        "networkApiVersion": "2018-11-01",
         "computeApiVersion": "2018-06-01",
         "storageApiVersion": "2018-07-01",
         "nvaPipName": "[concat(parameters('nvaName'), '-pip')]",
@@ -171,7 +171,7 @@
     },
     "resources": [
         {
-            "apiVersion": "2015-06-15",
+            "apiVersion": "2018-11-01",
             "type": "Microsoft.Network/routeTables",
             "name": "[parameters('RouteToStretchedSubnet')]",
             "location": "[resourceGroup().location]",
@@ -195,7 +195,7 @@
             "comments": "Create Vnet with three subnets",
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[parameters('vnetName')]",
-            "apiVersion": "[variables('networkApiVersion')]",
+            "apiVersion": "2018-11-01",
             "location": "[resourceGroup().location]",
             "properties": {
                 "addressSpace": {
@@ -223,13 +223,12 @@
                         },
 			                "routeTable": {
                                 "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('RouteToStretchedSubnet'))]"
-              }						
-                    }
+                            }
+                            }						
                 ]
             },
             "resources": [],
-            "dependsOn": ["[concat('Microsoft.Network/routeTables/', parameters('RouteToStretchedSubnet'))]"
-        ]
+            "dependsOn": []
         },
         {
             "comments": "Storage Account for diagnostics",
