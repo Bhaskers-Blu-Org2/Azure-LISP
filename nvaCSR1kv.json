@@ -228,7 +228,8 @@
                 ]
             },
             "resources": [],
-            "dependsOn": []
+            "dependsOn": ["[concat('Microsoft.Network/routeTables/', parameters('RouteToStretchedSubnet'))]"
+        ]
         },
         {
             "comments": "Storage Account for diagnostics",
