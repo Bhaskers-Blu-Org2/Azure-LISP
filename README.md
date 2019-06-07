@@ -55,6 +55,7 @@ Map-Resolver (MR): An MR is a LISP Infrastructure device to which LISP site ITRs
 
 ## LISP Use-Cases
 Fast Bring-up of Disaster Recovery Facilities
+
 DC Migration/Relocation of workloads to Azure without IP address change.
 
 ## DC Migration
