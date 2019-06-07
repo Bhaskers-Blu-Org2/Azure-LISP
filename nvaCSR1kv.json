@@ -23,7 +23,7 @@
             "type": "string"
         },
         "vmaIpAddress": {
-            "defaultValue": "10.100.100.4/32",
+            "defaultValue": "10.100.100.4",
             "type": "string"            
         },
         "subnet2Prefix": {
