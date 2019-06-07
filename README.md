@@ -5,6 +5,12 @@
 </a>
 
 
+
+![alt text](https://github.com/jgmitter/images/blob/master/LISP%20Lab%20Diagram.png)
+
+
+
+
 Workload migrations to a public cloud such as Azure involve careful planning and coordination between multiple teams, including application, server, network, and storage teams.  
 One of the challenges the teams face is dealing with IP address changes.  An IP address change to an application can cause unnecessary complexity and delay to the project. For example, some applications, have IP addresses hard-coded, therefore, introduces risk with having to rewrite an application.  What if you could migrate workloads to Azure with IP mobility keeping the original IP address without network constraints?  IP mobility allows you to separate the workload migration from network limitations.  For instance, if the team can’t migrate all workloads within a subnet during a change window than the subnet can co-exist in your data center and Azure during the migration.   A migration team can migrate workloads in small groupings, enabling even a single-server migration. 
 
@@ -135,9 +141,6 @@ https://azure.microsoft.com/en-us/services/azure-migrate/
 
 
 
-
-
-![alt text](https://github.com/jgmitter/images/blob/master/Capture.PNG)
 
 
 
