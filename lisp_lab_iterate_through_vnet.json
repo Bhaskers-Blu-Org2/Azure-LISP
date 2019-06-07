@@ -50,7 +50,7 @@
     },
     "resources": [
 		{
-			"comments": "Simulate a number of vnets, each including two subnets, an Ubuntu VM and a CSR 1Kv NVA",
+			"comments": "Simulate a number of vnets, each including three subnets, two Ubuntu VM and a CSR 1Kv NVA",
 			"name": "TEST",
             "type": "Microsoft.Resources/deployments",
 			"apiVersion": "[variables('deploymentApiVersion')]",
@@ -76,7 +76,8 @@
                     "vm1Name": {"value": "[parameters('config')['vnets'][0]['vm1Name']]"},
                     "vm1Size": {"value": "Standard_B1s"},
                     "vm2Name": {"value": "[parameters('config')['vnets'][0]['vm2Name']]"},
-                    "vm2Size": {"value": "Standard_B1s"}
+                    "vm2Size": {"value": "Standard_B1s"},
+		    "TestUDR": { "value": "UDR-Test" }
                 }
             },
             "dependsOn": [
@@ -105,7 +106,8 @@
                     "nvaName": {"value": "[parameters('config')['vnets'][1]['nvaName']]"},
                     "nvaSize": {"value": "Standard_DS3_v2"},
 		    "vmName": {"value": "[parameters('config')['vnets'][1]['vmName']]"},
-                    "vmSize": {"value": "Standard_B1s"}
+                    "vmSize": {"value": "Standard_B1s"},
+	            "InsideUDR": { "value": "UDR-Inside" }
                 }
             },
             "dependsOn": [
