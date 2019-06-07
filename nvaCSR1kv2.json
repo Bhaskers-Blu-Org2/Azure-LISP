@@ -50,7 +50,7 @@
       	    "type": "string",
             "defaultValue": "UDR-FrontEnd",
             "metadata": {
-            "description": "Name for test subnet route table."
+            "description": "Name for inside subnet route table."
 	},
         "adminPassword": {
             "type": "secureString"
