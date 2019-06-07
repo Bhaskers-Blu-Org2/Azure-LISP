@@ -62,6 +62,12 @@
             "type": "string",
             "defaultValue": "lab-user"
         },
+	 "frontEndRouteTableName": {
+      	    "type": "string",
+            "defaultValue": "UDR-FrontEnd",
+            "metadata": {
+            "description": "Name for test subnet route table."
+      },
         "adminPassword": {
             "type": "securestring"
         }
