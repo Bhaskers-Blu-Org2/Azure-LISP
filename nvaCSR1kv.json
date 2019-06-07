@@ -64,8 +64,7 @@
         },
 	 "UDRTest": {
       	    "type": "string",
-            "defaultValue": "UDR-FrontEnd",
-            "description": "Name for test subnet route table."
+            "defaultValue": "UDR-FrontEnd"
       },
         "adminPassword": {
             "type": "securestring"
