@@ -244,7 +244,7 @@
                             },
 							"primary": false,
                             "privateIPAddressVersion": "IPv4",
-			    "privateIPAddress": "10.100.100.4",
+			                "privateIPAddress": "10.100.100.4",
                             "privateIPAllocationMethod": "Static"
                         }
                     }
@@ -394,7 +394,8 @@
                             "subnet": {
                                 "id": "[variables('subnet1Ref')]"
                             },
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAllocationMethod": "Static",
+                            "privateIPAddress": "10.100.100.10",
                             "publicIpAddress": {
                                 "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('vmPipName'))]"
                             }
