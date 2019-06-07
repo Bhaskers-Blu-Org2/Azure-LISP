@@ -30,7 +30,7 @@ Locator/ID Separation Protocol (LISP): A tunnel protocol that uses a central dat
 
 LISP-enabled virtualized router: A virtual machine or appliance that supports routing and LISP functions, including host mobility.
 
-Endpoint ID (EID): IPv4 or IPv6 identifier of the devices connected at the edge of the network and used in the first (most inner) LISP header of a packet.
+Endpoint ID (EID):  IPv4 or IPv6 identifier of the devices connected at the edge of the network and used in the first (most inner) LISP header of a packet.
 
 Routing Locator (RLOC): IPv4 or IPv6 addresses used to encapsulate and transport the flow between LISP nodes.   An RLOC is the output of an EID-to-RLOC mapping lookup.
 
