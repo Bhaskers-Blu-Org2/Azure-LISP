@@ -20,7 +20,11 @@
         },
         "subnet2Name": {
             "defaultValue": "subnet2",
-            "type": "string"
+            "type": "string",
+        },
+        "vmaIpAddress": {
+            "defaultValue": "10.100.100.4/32",
+            "type": "string"            
         },
         "subnet2Prefix": {
             "defaultValue": "192.168.100.64/26",
