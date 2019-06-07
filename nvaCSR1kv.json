@@ -20,7 +20,7 @@
         },
         "subnet2Name": {
             "defaultValue": "subnet2",
-            "type": "string",
+            "type": "string"
         },
         "vmaIpAddress": {
             "defaultValue": "10.100.100.4/32",
@@ -140,10 +140,19 @@
                 }
             }
         ],
+        "routes": [
+            {
+              "name": "RouteToStretchedSubnet",
+              "properties": {
+                "addressPrefix": "[parameters('subnet2Prefix')]",
+                "nextHopType": "VirtualAppliance",
+                "nextHopIpAddress": "[parameters('vmaIpAddress')]"
+              }
+            }
+          ],
         "nvaNsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('nvaNsgName'))]",
         "vm1NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm1NsgName'))]",
-	    "vm1NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm1NsgName'))]",
-	    "subnetUdrId": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', variables('udr1Name'))]",
+	    "subnetUdrId": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', variables('routes'))]",
         "vm2NsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vm2NsgName'))]",
         "vm1DiskName": "[concat(parameters('vm1Name'), '-disk')]",
         "vm2DiskName": "[concat(parameters('vm2Name'), '-disk2')]",
@@ -168,17 +177,7 @@
 		"customScript": "ubuntuConfig.bash",
 		"thisTemplateUri": "[deployment().properties.templateLink.uri]",
         "customScriptUri": "[uri(variables('thisTemplateUri'), variables('customScript'))]",
-        "customScriptCmd": "[concat('chmod 666 ', variables('customScript'), ' && /bin/sh ./', variables('customScript'))]",
-        "routes": [
-            {
-              "name": "RouteToStretchedSubnet",
-              "properties": {
-                "addressPrefix": "[parameters('subnet2Prefix')]",
-                "nextHopType": "VirtualAppliance",
-                "nextHopIpAddress": "[parameters('vmaIpAddress')]"
-              }
-            }
-          ]
+        "customScriptCmd": "[concat('chmod 666 ', variables('customScript'), ' && /bin/sh ./', variables('customScript'))]"
     },
     "resources": [
         {
@@ -212,7 +211,7 @@
                             "addressPrefix": "[parameters('subnet3Prefix')]"
                         },
 			            "routeTable": {
-                            "id": "[variables('routes')]"
+                            "id": "[variables('subnetUdrId')]"
               }						
                     }
                 ]
