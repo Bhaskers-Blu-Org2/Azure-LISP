@@ -62,7 +62,7 @@
             "type": "string",
             "defaultValue": "lab-user"
         },
-	 "frontEndRouteTableName": {
+	 "UDRTest": {
       	    "type": "string",
             "defaultValue": "UDR-FrontEnd",
             "metadata": {
