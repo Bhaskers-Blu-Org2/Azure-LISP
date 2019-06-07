@@ -1,5 +1,8 @@
 # Azure and LISP for Workload Migration 
 
+
+Lab it up:
+
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FAzure-LISP%2Fmaster%2Flisp_lab_iterate_through_vnet.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
@@ -65,11 +68,7 @@ The LISP CSRs in Azure is deployed with one interface facing the Internet or fac
 
 The LISP-enabled Azure solution allows inter and intra-subnet communication regardless of the location of the server, meaning that communication between two endpoints located in different subnets can happen even when one endpoint is located at the enterprise, and another endpoint is located at Azure with a stretched subnet between enterprise and Azure. 
 
-
-
-
-
-
+![alt text](https://github.com/jgmitter/images/blob/master/1stpic.png)
 
 
 ## Routing Considerations
@@ -93,6 +92,8 @@ The (CSR) deployed on Azure has one public IP address, and one or more interface
 CSR is the only device in the Azure running LISP, and it is configured as a LISP xTR. CSR is also configured with a GRE/IPsec tunnel toward PxTR-1, the enterprise data center CSR, and it has OSPF enabled over its IPsec tunnel to advertise its loopback interface address that is used as its RLOC. In the topology, the subnet 10.0.5.0/24 is stretched between the enterprise data center, Azure. The IPsec tunnel between the enterprise and cloud CSRs is used to secure communication between the enterprise and the cloud.
 
 
+![alt text](https://github.com/jgmitter/images/blob/master/pic2.png)
+
 
 ## Implementation Details within Azure
 The Azure CSR is configured as a LISP ITR and ETR node so that it can perform LISP encapsulation and de-encapsulation of the packets coming from or going to the virtual machines located within Azure. For traffic leaving Azure, whenever a route to the destination is not found on the CSR routing table, CSR must route that traffic through PxTR-1 at the enterprise data center. This function, known as use-petr, is useful to ensure that the traffic flow is symmetric between non-LISP-enabled sites and Azure, and it must be used when firewalls or other stateful devices are located at the enterprise data center.
@@ -105,10 +106,7 @@ This section explains the detailed communication flows referring to the diagram 
 Traffic from user PCs, which are located at a remote site that is not LISP-enabled, is naturally attracted toward the enterprise data center by IP routing. When it reaches the enterprise site, it crosses the site's security and other services to reach the local subnet that is supposed to host the destination server 10.0.5.253. When the local default gateway sends an ARP request to find .253, PxTR-1 responds to this ARP request using the Proxy-ARP function as described previously. Traffic is sent LISP-encapsulated to Azure, where it is delivered to CSR (xTR), which is the LISP gateway for (.253), handles the return traffic that is sent by .253. Because this traffic is intended for a non-LISP site, Azure CSR sends the traffic to the PeTR configured on it (PxTR-1).
 
 
-
-
-
-
+![alt text](https://github.com/jgmitter/images/blob/master/pic3.png)
 
 
 
@@ -130,23 +128,10 @@ In Azure itself, Azure fabric will route traffic between local subnets because i
 ## Communication from LISP-Enabled Remote Sites to Enterprise and Cloud
 All previous considerations of traffic flows assume that the only LISP-enabled devices are PxTR-1 and xTR-2. If one remote site needs to access directly a non-LISP-enabled resource in Azure, meaning a subnet that is strictly local to Azure, then pure routing can be used. If a remote site needs path optimization to directly reach the servers that are part of a LISP stretched subnet at Azure, LISP can be enabled on this remote site. An xTR deployed on this remote site would consult the map server to receive the correct location of the server.  If Azure vWAN is used than a LISP-enabled branch would have an optimized path for LISP stretched subnets during DC migration. 
 
+![alt text](https://github.com/jgmitter/images/blob/master/pic4.png)
 
 ## References:
 https://www.lisp4.net/
-http://lisp.cisco.com/
-https://cisco.com/go/lisp
-https://azure.microsoft.com/en-us/migration/
-https://azure.microsoft.com/en-us/services/azure-migrate/
-
-
-
-
-
-
-
-
-
-
 
 
 # Contributing
