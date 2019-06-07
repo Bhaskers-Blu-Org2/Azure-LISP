@@ -49,7 +49,6 @@
 	"UDRInside": {
       	    "type": "string",
             "defaultValue": "UDR-FrontEnd",
-            "description": "Name for inside subnet route table."
 	},
         "adminPassword": {
             "type": "secureString"
