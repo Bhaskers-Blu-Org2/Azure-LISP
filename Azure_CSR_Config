@@ -1,105 +1,10 @@
-azure-pxtr1#sh run
-Building configuration...
 
-Current configuration : 5822 bytes
-!
-! Last configuration change at 17:20:28 UTC Wed Mar 13 2019
-!
-version 16.9
-service timestamps debug datetime msec
-service timestamps log datetime msec
-platform qfp utilization monitor load 80
-no platform punt-keepalive disable-kernel-core
-platform console serial
-!
-hostname azure-pxtr1
-!
-boot-start-marker
-boot-end-marker
-!
-!
-vrf definition GS
- rd 100:100
- !
- address-family ipv4
- exit-address-family
-!
-logging persistent size 1000000 filesize 8192 immediate
-!
-aaa new-model
-!
-!
-aaa authentication login default local
-aaa authorization exec default local none
-!
-!
-!
-!
-!
-aaa session-id common
-!
-!
-!
-!
-!
-!
-!
-ip domain name azure-pxtr1.cloudapp.net
-ip admission watch-list expiry-time 0
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-subscriber templating
-!
-!
-!
-!
-!
-multilink bundle-name authenticated
-!
-!
-!
-
-!
-!
-!
-license udi pid CSR1000V sn 92FUC3QWD1M
-no license smart enable
-diagnostic bootup level minimal
-!
-spanning-tree extend system-id
-!
-!
-!
-username lab-user privilege 15 password 0 Msft123Msft123
-!
-redundancy
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
 !
 crypto isakmp policy 1
  encr aes
  authentication pre-share
  group 14
-crypto isakmp key azure address 138.91.126.62
-################################Replace with public ip of remote end################# 
+crypto isakmp key azure address x.x.x.x
 !
 !
 crypto ipsec transform-set VPN esp-aes esp-sha-hmac
@@ -108,25 +13,15 @@ crypto ipsec transform-set VPN esp-aes esp-sha-hmac
 crypto ipsec profile VPN-Profile
  set transform-set VPN
 !
-!
-!
-!
-!
-!
-!
-!
-!
+
 !
 interface Loopback0
  ip address 192.168.100.100 255.255.255.255
  ip pim sparse-mode
  ip ospf 1 area 0
 !
-interface Loopback100
- ip address 10.150.150.20 255.255.255.255
-!
 interface Tunnel2
- description VPN to AzureEast
+ description Azure to OnPrem
  ip address 10.0.20.2 255.255.255.0
  ip pim sparse-mode
  ip tcp adjust-mss 1350
@@ -135,7 +30,7 @@ interface Tunnel2
  load-interval 30
  tunnel source GigabitEthernet1
  tunnel mode ipsec ipv4
- tunnel destination 13.90.229.203
+ tunnel destination x.x.x.x
  tunnel protection ipsec profile VPN-Profile
 !
 interface LISP0
@@ -149,13 +44,13 @@ interface VirtualPortGroup0
 !
 interface GigabitEthernet1
  ip address dhcp
+ ip nat outside
  negotiation auto
  no mop enabled
  no mop sysid
 !
 interface GigabitEthernet2
- description Inside
- ip address dhcp
+ ip address 10.100.100.4 255.255.255.0
  negotiation auto
  lisp mobility subnet1 nbr-proxy-reply requests 3
  no mop enabled
@@ -181,7 +76,6 @@ router lisp
   !
   service ipv4
    eid-table default
-   database-mapping 10.150.150.20/32 locator-set DC1
    exit-service-ipv4
   !
   exit-instance-id
@@ -190,52 +84,5 @@ router lisp
 !
 router ospf 1
  router-id 192.168.100.100
-!
-iox
-ip forward-protocol nd
-ip tcp window-size 8192
-ip http server
-ip http secure-server
-ip route 10.100.0.0 255.255.255.0 Tunnel2
-ip route vrf GS 0.0.0.0 0.0.0.0 GigabitEthernet1 10.100.210.1 global
-!
-ip ssh rsa keypair-name sshkeys
-ip scp server enable
-!
-!
-ip access-list standard GS_NAT_ACL
- permit 192.168.35.0 0.0.0.255
-!
-!
-!
-!
-!
-!
-control-plane
-!
-!
-!
-!
-!
-!
-line con 0
- stopbits 1
-line aux 0
- stopbits 1
-line vty 0 4
- transport input ssh
-line vty 5 20
- transport input ssh
-!
-!
-!
-!
-!
-!
-app-hosting appid guestshell
- app-vnic gateway1 virtualportgroup 0 guest-interface 0
-  guest-ipaddress 192.168.35.102 netmask 255.255.255.0
- app-default-gateway 192.168.35.101 guest-interface 0
- name-server0 8.8.8.8
-end
 
+!
