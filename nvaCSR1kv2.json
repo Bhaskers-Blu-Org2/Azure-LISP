@@ -198,7 +198,7 @@
                         "name": "ipconfig1",
                         "properties": {
                             "subnet": {
-                                "id": "[variables('subnet1Ref')]"
+                                "id": "[variables('subnet2Ref')]"
                             },
 							"primary": true,
                             "privateIPAddressVersion": "IPv4",
@@ -236,11 +236,12 @@
                         "name": "ipconfig2",
                         "properties": {
                             "subnet": {
-                                "id": "[variables('subnet2Ref')]"
+                                "id": "[variables('subnet1Ref')]"
                             },
 							"primary": false,
                             "privateIPAddressVersion": "IPv4",
-                            "privateIPAllocationMethod": "Dynamic"
+			    "privateIPAddress": "10.100.100.4",
+                            "privateIPAllocationMethod": "Static"
                         }
                     }
                 ],
@@ -305,8 +306,8 @@
                     "imageReference": {
                         "publisher": "cisco",
                         "offer": "cisco-csr-1000v",
-                        "sku": "16_9-byol",
-                        "version": "16.9.120180924"
+                        "sku": "16_10-byol",
+                        "version": "16.10.120190108"
                     }
                 },
                 "networkProfile": {
@@ -339,7 +340,7 @@
                 }
             },
             "plan": {
-                "name": "16_9-byol",
+                "name": "16_10-byol",
                 "publisher": "cisco",
                 "product": "cisco-csr-1000v"
             },
