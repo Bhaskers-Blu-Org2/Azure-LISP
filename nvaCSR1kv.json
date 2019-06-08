@@ -300,10 +300,22 @@
                             "subnet": {
                                 "id": "[variables('subnet1Ref')]"
                             },
-							"primary": false,
+							"primary": true,
 		            "privateIPAddress": "10.100.100.4",
                             "privateIPAddressVersion": "IPv4",
                             "privateIPAllocationMethod": "Static"
+                        }
+                    },
+                    {
+                        "name": "IP1inAzure",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnet1Ref')]"
+                            },                             
+                            "privateIPAddress": "10.100.100.10",
+                            "privateIPAllocationMethod": "Static",
+                            "primary": false,
+                            "privateIPAddressVersion": "IPv4"
                         }
                     }
                 ],
