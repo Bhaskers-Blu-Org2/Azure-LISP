@@ -228,7 +228,7 @@
                 ]
             },
             "resources": [],
-            "dependsOn": ["[resourceId('Microsoft.Network/networkSecurityGroups', parameters('RouteToStretchedSubnet'))]"]
+            "dependsOn": ["[resourceId('Microsoft.Network/routeTables', parameters('RouteToStretchedSubnet'))]"]
         },
         {
             "comments": "Storage Account for diagnostics",
