@@ -224,7 +224,7 @@
 			                "routeTable": {
                                 "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('RouteToStretchedSubnet'))]"
                             }
-                            }						
+                    }						
                 ]
             },
             "resources": [],
