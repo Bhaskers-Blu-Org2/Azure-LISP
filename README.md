@@ -7,6 +7,7 @@ Lab it up:
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
+Remember to deploy IOS configs to each CSR, and update x.x.x.x within configs referencing neighboring public IP of CSR.
 
 
 ![alt text](https://github.com/jgmitter/images/blob/master/LISP%20Lab%20Diagram.png)
