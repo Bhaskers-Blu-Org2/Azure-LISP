@@ -219,16 +219,16 @@
 					{
                         "name": "[parameters('subnet3Name')]",
                         "properties": {
-                            "addressPrefix": "[parameters('subnet3Prefix')]"
-                        },
+                            "addressPrefix": "[parameters('subnet3Prefix')]",
 			                "routeTable": {
                                 "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('RouteToStretchedSubnet'))]"
                             }
+                        }
                     }						
                 ]
             },
             "resources": [],
-            "dependsOn": []
+            "dependsOn": ["[resourceId('Microsoft.Network/networkSecurityGroups', parameters('RouteToStretchedSubnet'))]"]
         },
         {
             "comments": "Storage Account for diagnostics",
