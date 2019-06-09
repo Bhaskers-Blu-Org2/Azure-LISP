@@ -43,7 +43,7 @@
         }
     },
     "variables": {
-        "networkApiVersion": "2018-08-01",
+        "networkApiVersion": "2018-11-01",
         "deploymentApiVersion": "2017-05-10",
         "nvaTemplateUrl1": "[uri(deployment().properties.templateLink.uri, 'nvaCSR1kv.json')]",
         "nvaTemplateUrl2": "[uri(deployment().properties.templateLink.uri, 'nvaCSR1kv2.json')]"
