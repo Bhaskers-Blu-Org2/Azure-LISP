@@ -105,9 +105,9 @@
                     "subnet2Prefix": {"value": "[parameters('config')['vnets'][1]['Outside']]"},
                     "nvaName": {"value": "[parameters('config')['vnets'][1]['nvaName']]"},
                     "nvaSize": {"value": "Standard_DS3_v2"},
-		            "vmName": {"value": "[parameters('config')['vnets'][1]['vmName']]"},
+		    "vmName": {"value": "[parameters('config')['vnets'][1]['vmName']]"},
                     "vmSize": {"value": "Standard_B1s"},
-	                "UDROnPrem": {"value": "UDR-OnPrem"}
+	            "UDROnPrem": {"value": "UDROnPrem"}
                 }
             },
             "dependsOn": [
