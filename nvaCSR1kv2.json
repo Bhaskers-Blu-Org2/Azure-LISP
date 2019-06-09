@@ -271,7 +271,7 @@
                             "subnet": {
                                 "id": "[variables('subnet1Ref')]"
                             },
-							"primary": false,
+							"primary": true,
                             "privateIPAddressVersion": "IPv4",
 			                "privateIPAddress": "10.100.100.4",
                             "privateIPAllocationMethod": "Static"
