@@ -22,6 +22,10 @@
             "defaultValue": "subnet2",
             "type": "string"
         },
+        "vmaIpAddress": {
+            "defaultValue": "10.100.100.4",
+            "type": "string"            
+        },
         "subnet2Prefix": {
             "defaultValue": "192.168.100.64/26",
             "type": "string"
@@ -46,7 +50,7 @@
             "type": "string",
             "defaultValue": "lab-user"
         },
-	"UDRInside": {
+	    "UDROnPrem": {
       	    "type": "string",
             "defaultValue": "UDR-FrontEnd"
 	},
@@ -118,6 +122,7 @@
         ],
         "nvaNsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('nvaNsgName'))]",
         "vmNsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('vmNsgName'))]",
+        "subnetUdrId": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('UDROnPrem'))]",
         "vmDiskName": "[concat(parameters('vmName'), '-disk')]",
 		"vmDiskType": "Standard_LRS",
 		"vmOsDiskSize": 32,
@@ -143,6 +148,27 @@
    },
     "resources": [
         {
+            "apiVersion": "2018-11-01",
+            "type": "Microsoft.Network/routeTables",
+            "name": "[parameters('UDROnPrem')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+              "displayName": "Route Table - Stretched Subnet"
+            },
+            "properties": {
+              "routes": [
+                {
+                  "name": "RouteToOnPremises",
+                  "properties": {
+                    "addressPrefix": "10.100.0.0/24",
+                    "nextHopType": "VirtualAppliance",
+                    "nextHopIpAddress": "[parameters('vmaIpAddress')]"
+                  }
+                }
+              ]
+            }
+          },
+        {
             "comments": "Create Vnet with two subnets",
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[parameters('vnetName')]",
@@ -164,13 +190,16 @@
                     {
                         "name": "[parameters('subnet2Name')]",
                         "properties": {
-                            "addressPrefix": "[parameters('subnet2Prefix')]"
+                            "addressPrefix": "[parameters('subnet2Prefix')]",
+			                "routeTable": {
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('UDROnPrem'))]"
+                            }
                         }
-                    },
+                    }	                       
                 ]
             },
             "resources": [],
-            "dependsOn": []
+            "dependsOn": ["[resourceId('Microsoft.Network/routeTables', parameters('UDROnPrem'))]"]
         },
         {
             "comments": "Storage Account for diagnostics",
@@ -247,7 +276,19 @@
 			                "privateIPAddress": "10.100.100.4",
                             "privateIPAllocationMethod": "Static"
                         }
+                    },
+                    {
+                        "name": "IP1StillOnPrem",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnet1Ref')]"
+                            },                             
+                            "privateIPAddress": "10.100.100.20",
+                            "privateIPAllocationMethod": "Static",
+                            "primary": false,
+                            "privateIPAddressVersion": "IPv4"
                     }
+                }    
                 ],
 				 "enableAcceleratedNetworking": false,
                 "enableIPForwarding": true,
