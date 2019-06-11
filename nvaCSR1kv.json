@@ -68,7 +68,7 @@
         },
 	    "RouteToStretchedSubnet": {
       	    "type": "string",
-            "defaultValue": "UDR-FrontEnd"
+            "defaultValue": "UDR-StretchedSubnet"
         },
         "adminPassword": {
             "type": "securestring"
