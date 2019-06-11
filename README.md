@@ -13,6 +13,7 @@ Remember to deploy IOS configs to each CSR, and update x.x.x.x within configs re
 ![alt text](https://github.com/jgmitter/images/blob/master/LISP%20Lab%20Diagram.png)
 
 
+![alt text](https://github.com/jgmitter/images/blob/master/Annotation%202019-06-11%20152917.png)
 
 
 Workload migrations to a public cloud such as Azure involve careful planning and coordination between multiple teams, including application, server, network, and storage teams.  
