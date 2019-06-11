@@ -12,6 +12,7 @@ Remember to deploy IOS configs to each CSR, and update x.x.x.x within configs re
 
 ![alt text](https://github.com/jgmitter/images/blob/master/LISP%20Lab%20Diagram.png)
 
+The image below represents the LISP Mapping Server highlight that 10.100.100.10 is behind LISP RLOC 192.168.100.100 and 10.100.100.20 is behind LSIP RLOC 192.168.200.200.  We have stretched/split a subnet between on-premises and Azure.  
 
 ![alt text](https://github.com/jgmitter/images/blob/master/Annotation%202019-06-11%20152917.png)
 
