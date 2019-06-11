@@ -184,16 +184,18 @@
                     {
                         "name": "[parameters('subnet1Name')]",
                         "properties": {
-                            "addressPrefix": "[parameters('subnet1Prefix')]",
-			                "routeTable": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('UDROnPrem'))]"                            
+                            "addressPrefix": "[parameters('subnet1Prefix')]"
                         }
                     },
+                    {
                         "name": "[parameters('subnet2Name')]",
                         "properties": {
-                            "addressPrefix": "[parameters('subnet2Prefix')]"
+                            "addressPrefix": "[parameters('subnet2Prefix')]",
+			                "routeTable": {
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/routeTables', parameters('UDROnPrem'))]"
                             }
-                        }                       
+                        }
+                    }	                       
                 ]
             },
             "resources": [],
