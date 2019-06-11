@@ -181,9 +181,9 @@
             "properties": {
               "routes": [
                 {
-                  "name": "RouteToFrontEnd",
+                  "name": "RouteToStretchedSubnet",
                   "properties": {
-                    "addressPrefix": "[parameters('subnet2Prefix')]",
+                    "addressPrefix": "[parameters('subnet1Prefix')]",
                     "nextHopType": "VirtualAppliance",
                     "nextHopIpAddress": "[parameters('vmaIpAddress')]"
                   }
