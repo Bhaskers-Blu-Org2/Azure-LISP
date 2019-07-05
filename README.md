@@ -140,11 +140,11 @@ https://www.lisp4.net/
 
 <a id="stretched"></a> 
 # Stretched Intra Subnet Routing
-Currently, for intra-subnet routing from Azure to on-premises, additional configuration is required.  For the Azure fabric to forward a packet to the CSR to an IP back on-premises within the same stretched subnet, it requires a secondary IP on the NIC attached to the CSR interface attached to the stretched subnet for each IP within the same stretched subnet still on-premises.  This additional configuration is not required on-premises.  There is work being done to automate this via the LISP Map-Server to programmatically program Azure API to define secondary IPs based on what IPs are still on-premises within the stretched subnet.  
+Currently, for intra-subnet routing from Azure to on-premises, additional configuration is required.  For the Azure fabric to forward a packet to the CSR to an IP back on-premises within the same stretched subnet, it requires a secondary IP on the NIC attached to the CSR interface attached to the stretched subnet for each IP within the same stretched subnet still on-premises.  This additional configuration is not required on-premises.
 
 ![alt text](https://github.com/jgmitter/images/blob/master/Secondaryip.png)
 
-# Automation (this is beta - test that it works for your use case!)
+# Automate the changes to Azure (this is beta - test that it works for your use case!)
 For this to automatically work as new hosts are being moved around from on-premises to Azure, the secondary IPs that need to be added to the NIC in Azure as referred to in the section on [Stretched Intra Subnet Routing above](#stretched) can be done automatically by leveraging the Cisco Embedded Event Manager, guestshell (a Linux shell running on select Cisco devices, including the CSR), [Python](https://www.python.org/) and the [Azure SDK for Python](https://github.com/Azure/azure-sdk-for-python).
 
 ## Concepts
