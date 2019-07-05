@@ -158,6 +158,7 @@ Again on [Cisco's](http://www.cisco.com) web site, you will see more in-depth co
 ### [Azure SDK for Python](https://github.com/Azure/azure-sdk-for-python)
 With Python at the core of this, we need to interact, using Python, with the Azure REST API to manage Azure. Specifically, we're trying to add on the NIC of the XTR that runs in Azure the IP addresses that exist on-premises. For this, a REST call is necessary, but it's much simpler to rather use the Python SDK for Azure. It has all the methods required to make this much simpler to do than handling REST calls directly.
 
+<a id="script_dependencies"></a> 
 ## Script and dependencies
 The Python script that we used is included [here](ipconfig-register.py), and there are two dependency files:
 1. [site_configs.json](site_configs.json): Contain the configuration of the sites in this format : 
@@ -197,7 +198,10 @@ The Python script that we used is included [here](ipconfig-register.py), and the
 ## IOS Configuration
 
 ### Upload files
-In order for the CSR to be able to execute this script, the 3 files above need to be uploaded to the flash memory (bootflash) of the CSR so that the script is accessible from inside the guestshell.
+In order for the CSR to be able to execute this script, the 3 files referenced [above](#script_dependencies) need to be uploaded (and edited for one of them) to the flash memory (bootflash) of the CSR so that the script is accessible from inside the guestshell :
+1. [ipconfig-register.py](ipconfig-register.py)
+1. [secret.json](secret.json)
+1. [site_configs.json](site_configs.json)
 
 ### Configure Guestshell 
 1. In order to activate the guestshell, you need to type, in exec mode :
