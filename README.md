@@ -159,7 +159,7 @@ Again on [Cisco's](http://www.cisco.com) web site, you will see more in-depth co
 With Python at the core of this, we need to interact, using Python, with the Azure REST API to manage Azure. Specifically, we're trying to add on the NIC of the XTR that runs in Azure the IP addresses that exist on-premises. For this, a REST call is necessary, but it's much simpler to rather use the Python SDK for Azure. It has all the methods required to make this much simpler to do than handling REST calls directly.
 
 ## Script and dependencies
-The Python script that we used is included [here](addlink...), and there are two dependency files:
+The Python script that we used is included [here](ipconfig-register.py), and there are two dependency files:
 1. [site_configs.json](site_configs.json): Contain the configuration of the sites in this format : 
     ```jsonc
     {
@@ -168,7 +168,7 @@ The Python script that we used is included [here](addlink...), and there are two
         "csr_azure_intf_name" : "azure-pxtr1-nic2"
     }
     ```
-    This file is referenced by the main [python script](link) so that it pulls the proper information out of the CSR router to update Azure. The `site_name` is used by other configuration elements in the CSRs to identify the site for LISP.
+    This file is referenced by the main [python script](ipconfig-register.py) so that it pulls the proper information out of the CSR router to update Azure. The `site_name` is used by other configuration elements in the CSRs to identify the site for LISP.
 1. [secret.json](secrets.json): As the name suggests, this file contains the credentials to be able to communicate with Azure.
     ```jsonc
     {
