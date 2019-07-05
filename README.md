@@ -138,11 +138,130 @@ All previous considerations of traffic flows assume that the only LISP-enabled d
 ## References:
 https://www.lisp4.net/
 
+<a id="stretched"></a> 
 # Stretched Intra Subnet Routing
 Currently, for intra-subnet routing from Azure to on-premises, additional configuration is required.  For the Azure fabric to forward a packet to the CSR to an IP back on-premises within the same stretched subnet, it requires a secondary IP on the NIC attached to the CSR interface attached to the stretched subnet for each IP within the same stretched subnet still on-premises.  This additional configuration is not required on-premises.  There is work being done to automate this via the LISP Map-Server to programmatically program Azure API to define secondary IPs based on what IPs are still on-premises within the stretched subnet.  
 
 ![alt text](https://github.com/jgmitter/images/blob/master/Secondaryip.png)
 
+# Automation (this is beta - test that it works for your use case!)
+For this to automatically work as new hosts are being moved around from on-premises to Azure, the secondary IPs that need to be added to the NIC in Azure as referred to in the section on [Stretched Intra Subnet Routing above](#stretched) can be done automatically by leveraging the Cisco Embedded Event Manager, guestshell (a Linux shell running on select Cisco devices, including the CSR), [Python](https://www.python.org/) and the [Azure SDK for Python](https://github.com/Azure/azure-sdk-for-python).
+
+## Concepts
+
+### Embedded Event Manager
+You will find more on [Cisco's](http://www.cisco.com) web site but the idea is that this is a trigger that can, based on events, or timers, fire something. This is what will be launching our Python script.
+
+### Guestshell
+Again on [Cisco's](http://www.cisco.com) web site, you will see more in-depth coverage on this. Cisco's guestshell is a linux subsystem that can run arbitrary things we need. Specifically in our case, we need to run Python code.
+
+### [Azure SDK for Python](https://github.com/Azure/azure-sdk-for-python)
+With Python at the core of this, we need to interact, using Python, with the Azure REST API to manage Azure. Specifically, we're trying to add on the NIC of the XTR that runs in Azure the IP addresses that exist on-premises. For this, a REST call is necessary, but it's much simpler to rather use the Python SDK for Azure. It has all the methods required to make this much simpler to do than handling REST calls directly.
+
+## Script and dependencies
+The Python script that we used is included [here](addlink...), and there are two dependency files:
+1. [site_configs.json](site_configs.json): Contain the configuration of the sites in this format : 
+    ```jsonc
+    {
+        "site_name" : "DC1",
+        "resource_group" : "lisp-labs",
+        "csr_azure_intf_name" : "azure-pxtr1-nic2"
+    }
+    ```
+    This file is referenced by the main [python script](link) so that it pulls the proper information out of the CSR router to update Azure. The `site_name` is used by other configuration elements in the CSRs to identify the site for LISP.
+1. [secret.json](secrets.json): As the name suggests, this file contains the credentials to be able to communicate with Azure.
+    ```jsonc
+    {
+        "sp_client_id": "<YOUR APP ID GUID>",
+        "sp_secret" : "<YOUR SECRET ID GUID>",
+        "sp_tenant_id" : "<YOUR AAD TENANT GUID>",
+        "sub_id" : "<YOUR SUBSCRIPTION GUID>"
+    }
+    ````
+    The `sp_client_id` and `sp_secret` can both be generated using the `az` command [`az ad sp create-for-rbac`](https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az-ad-sp-create-for-rbac). Many variances of the command exist, and please note that by default, (other methods exist) this command will give contributor right to the newly created client/secret (think of them as a service account and password), access to all the Azure resources in this subscription. There are options to the command `az ad sp create-for-rbac` so this isn't the case. See the [documentation](https://docs.microsoft.com/en-us/cli/azure/ad/sp?view=azure-cli-latest#az-ad-sp-create-for-rbac) for more information.
+    Both `sp_tenant_id` and `sub_id` can be retrived by running `az account list --output json` will yield something similar to this
+    ```json
+    {
+        "cloudName": "AzureCloud",
+        "id": "<SUBSCRIPTION ID>",
+        "isDefault": true,
+        "name": "subscription_name",
+        "state": "Enabled",
+        "tenantId": "<TENANT GUID>",
+        "user": {
+          "name": "user@company.com",
+          "type": "user"
+        }
+    }
+    ```
+## IOS Configuration
+
+### Upload files
+In order for the CSR to be able to execute this script, the 3 files above need to be uploaded to the flash memory (bootflash) of the CSR so that the script is accessible from inside the guestshell.
+
+### Configure Guestshell 
+1. In order to activate the guestshell, you need to type, in exec mode :
+    ```
+    onprem-pxtr#guestshell enable
+    ```
+    This will enable the guestshell and then typing guestshell will get you in the shell environment :
+    ```
+    onprem-pxtr#guestshell
+    [guestshell@guestshell ~]$
+    ```
+    where you can run arbitrairy commands, including running a Python script.
+1. You will then need to install [Azure SDK for python](https://github.com/Azure/azure-sdk-for-python) by using the following commands:
+    ```shell
+    pip install azure
+    ```
+    This will install all required packages. To confirm that this works, type the following:
+    ```shell
+    [guestshell@guestshell ~]$ python
+    Python 2.7.5 (default, Apr 11 2018, 07:36:10)
+    [GCC 4.8.5 20150623 (Red Hat 4.8.5-28)] on linux2
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> import azure
+    >>>
+    ```
+    If you are seeing something like this :
+    ```shell
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    ImportError: No module named azure
+    ```
+    it means something did not install properly. This needs to be addressed before moving on to the next step.
+1. At this stage, you can try testing the script assuming the configuration files are working properly, that should confirm that the script runs smoothly by using the command :
+    ```bash
+    [guestshell@guestshell ~]$ python /bootflash/ipconfig-register.py
+    2019-07-05 20:59:53,879:INFO:MainThread:b604d245-3f35-4826-a2e0-2a84dcea41b1 - TokenRequest:Getting token with client credentials.
+    2019-07-05 20:59:54,174:INFO:MainThread:b604d245-3f35-4826-a2e0-2a84dcea41b1 - OAuth2Client:Get Token Server returned this correlation_id: b604d245-3f35-4826-a2e0-2a84dcea41b1
+    2019-07-05 20:59:54,189:INFO:MainThread:0c6e7594-9740-4b15-885e-c6aa81ce729a - TokenRequest:Getting token with client credentials.
+    2019-07-05 20:59:54,640:INFO:MainThread:IOS output of show =
+    2019-07-05 20:59:54,640:INFO:MainThread:Running on IOS. Picking up IPs [''] in local database
+    2019-07-05 20:59:54,641:INFO:MainThread:Adding primary IP 10.100.100.4 to the list (primary IP of CSR in Azure).
+    2019-07-05 20:59:54,641:INFO:MainThread:Dropping the IP 10.100.100.20 from the current list
+    2019-07-05 20:59:54,641:INFO:MainThread:Dropping the IP 10.100.100.6 from the current list
+    2019-07-05 20:59:54,641:INFO:MainThread:Adding the IP  to the list
+    2019-07-05 20:59:54,642:INFO:MainThread:Triggering the update of the ipconfig in Azure to include the following list : [u'10.100.100.4', '']
+    2019-07-05 20:59:54,645:INFO:MainThread:4fb0e271-99ac-4db1-9ea7-e9f8a4c9767e - TokenRequest:Getting token with client credentials.
+    2019-07-05 20:59:55,108:INFO:MainThread:Exception : Private IP address is required when privateIPAllocationMethod is Static in IP configuration /subscriptions/321cae6f-e4d3-40bf-824f-c07493a62af5/resourceGroups/lisp-labs/providers/Microsoft.Network/networkInterfaces/azure-pxtr1-nic2/ipConfigurations/ipconfig_remote_.  2019-07-05 20:59:55,109:INFO:MainThread:Done.
+    ```
+    If you see an output similar to the above, you can validate in the Azure portal that the IP addresses are properly configured on the Azure side.
+    
+### Configure Event Manager
+There are likely multiple ways to launch the script, we chose to run it every 60 seconds. Running it more frequently will result in API calls likely returning that the resource is busy, processing the previous updates. Moreover, we don't think that in general, VMs will be migrating at a pace that would require to run the script several times per minute. The following commands were added in configuration mode on the Cisco device.
+```
+event manager applet azure_update_ipconfigs
+ event timer watchdog time 60
+ action 1.0 cli command "en"
+ action 2.0 cli command "guestshell run python /bootflash/ipconfig-register.py"
+```
+
+## Testing
+In order to test that the following works, you can try the following steps :
+    1. create a new virtual machine on the on-premises side of the network
+    1. ping the IP of the VMs from the local XTR (or vice-versa)
+    1. wait for 60 seconds to see if the new IP of this newly created machine is reacheable from Azure
 
 # Contributing
 
