@@ -169,7 +169,7 @@ The Python script that we used is included [here](ipconfig-register.py), and the
     }
     ```
     This file is referenced by the main [python script](ipconfig-register.py) so that it pulls the proper information out of the CSR router to update Azure. The `site_name` is used by other configuration elements in the CSRs to identify the site for LISP.
-1. [secret.json](secrets.json): As the name suggests, this file contains the credentials to be able to communicate with Azure.
+1. [secret.json](secret.json): As the name suggests, this file contains the credentials to be able to communicate with Azure.
     ```jsonc
     {
         "sp_client_id": "<YOUR APP ID GUID>",
