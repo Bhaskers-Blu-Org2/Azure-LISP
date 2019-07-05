@@ -1,0 +1,5 @@
+{
+    "site_name" : "DC1",
+    "resource_group" : "lisp-labs",
+    "csr_azure_intf_name" : "azure-pxtr1-nic2"
+}
