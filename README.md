@@ -103,10 +103,21 @@ CSR is the only device in the Azure running LISP, and it is configured as a LISP
 ## Implementation Details within Azure
 The Azure CSR is configured as a LISP ITR and ETR node so that it can perform LISP encapsulation and de-encapsulation of the packets coming from or going to the virtual machines located within Azure. For traffic leaving Azure, whenever a route to the destination is not found on the CSR routing table, CSR must route that traffic through PxTR-1 at the enterprise data center. This function, known as PETR, is useful to ensure that the traffic flow is symmetric between non-LISP-enabled sites and Azure, and it must be used when firewalls or other stateful devices are located at the enterprise data center.
 
-Redundancy of the CSRs of the LISP solution within Azure is achieved using Azure Load-Balancer.  An Azure load balancer is a Layer-4 (TCP, UDP) load balancer that provides high availability by distributing incoming traffic among healthy VMs. A load balancer health probe monitors a given port on each VM and only distributes traffic to an operational CSRs.  You define a front-end IP configuration that contains one or more IP addresses.  Virtual machines connect to a load balancer using their virtual network interface card (NIC). To distribute traffic to the CSRs, a back-end address pool contains the IP addresses of the virtual (NICs) connected to the CSRs.
+Redundancy of the CSRs of the LISP solution within Azure is achieved using Azure Load-Balancer.  An Azure load balancer is a Layer-4 (TCP, UDP) load balancer that provides high availability by distributing incoming traffic among healthy VMs. A load balancer health probe monitors a given port on each VM and only distributes traffic to an operational CSRs. 
+
+![alt text](https://github.com/jgmitter/images/blob/master/probe.png)
+
+You define a front-end IP configuration that contains one or more IP addresses.  Virtual machines connect to a load balancer using their virtual network interface card (NIC). 
+
+![alt text](https://github.com/jgmitter/images/blob/master/vip.png)
+
+To distribute traffic to the CSRs, a back-end address pool contains the IP addresses of the virtual (NICs) connected to the CSRs.
+
+![alt text](https://github.com/jgmitter/images/blob/master/backendpool.png)
 
 To control the flow of traffic, you define load balancer rules for specific ports and protocols that map to your VMs.
 
+![alt text](https://github.com/jgmitter/images/blob/master/lbrule.png)
 
 
 ## Packet Walk and Encapsulation Stack
