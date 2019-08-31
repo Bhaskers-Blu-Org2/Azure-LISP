@@ -103,11 +103,11 @@ CSR is the only device in the Azure running LISP, and it is configured as a LISP
 ## Implementation Details within Azure
 The Azure CSR is configured as a LISP ITR and ETR node so that it can perform LISP encapsulation and de-encapsulation of the packets coming from or going to the virtual machines located within Azure. For traffic leaving Azure, whenever a route to the destination is not found on the CSR routing table, CSR must route that traffic through PxTR-1 at the enterprise data center. This function, known as PETR, is useful to ensure that the traffic flow is symmetric between non-LISP-enabled sites and Azure, and it must be used when firewalls or other stateful devices are located at the enterprise data center.
 
-Redundancy of the CSRs of the LISP solution within Azure is achieved using Azure Load-Balancer.  An Azure load balancer is a Layer-4 (TCP, UDP) load balancer that provides high availability by distributing incoming traffic among healthy VMs. A load balancer health probe monitors a given port on each VM and only distributes traffic to an operational CSRs. 
+Redundancy of the CSRs of the LISP solution within Azure is achieved using Azure Load-Balancer.  An Azure load balancer is a Layer-4 (TCP, UDP) load balancer that provides high availability by distributing incoming traffic among healthy VMs. A load balancer health probe monitors each CSR and only distributes traffic to operational CSRs. 
 
 ![alt text](https://github.com/jgmitter/images/blob/master/probe.png)
 
-You define a front-end IP configuration that contains one or more IP addresses.  Virtual machines connect to a load balancer using their virtual network interface card (NIC). 
+You define a front-end IP configuration that contains one or more IP addresses.  Multiple front-end IP configurations would represent the IP addresses within the stretched subnet that are still on premise.  The automation and configuration of the front-end IPs and supporting rules can be automated vs manual provisioning based on intelligence that discovers what IPs are still on premise.  An example of the discovery of the IPs still on prem is discussed below in section titled Stretched Intra 
 
 ![alt text](https://github.com/jgmitter/images/blob/master/vip.png)
 
