@@ -1,21 +1,5 @@
 # Azure and LISP for Workload Migration 
 
-
-Lab it up:
-
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FAzure-LISP%2Fmaster%2Flisp_lab_iterate_through_vnet.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
-
-Remember to deploy IOS configs to each CSR, and update x.x.x.x within configs referencing neighboring public IP of CSR.
-
-
-![alt text](https://github.com/jgmitter/images/blob/master/LISP%20Lab%20Diagram.png)
-
-The image below represents the LISP Mapping Server highlight that 10.100.100.10 is behind LISP RLOC 192.168.100.100 and 10.100.100.20 is behind LSIP RLOC 192.168.200.200.  We have stretched/split a subnet between on-premises and Azure.  
-
-![alt text](https://github.com/jgmitter/images/blob/master/Annotation%202019-06-11%20152917.png)
-
 ## Azure and LISP for Workload Migration 
 
 Workload migrations to a public cloud such as Azure involve careful planning and coordination between multiple teams, including application, server, network, and storage teams.  
@@ -282,6 +266,21 @@ In order to test that the following works, you can try the following steps :
     1. create a new virtual machine on the on-premises side of the network
     1. ping the IP of the VMs from the local XTR (or vice-versa)
     1. wait for 60 seconds to see if the new IP of this newly created machine is reacheable from Azure
+        
+Lab it up:
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FAzure-LISP%2Fmaster%2Flisp_lab_iterate_through_vnet.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png"/>
+</a>
+
+Remember to deploy IOS configs to each CSR, and update x.x.x.x within configs referencing neighboring public IP of CSR.
+
+
+![alt text](https://github.com/jgmitter/images/blob/master/LISP%20Lab%20Diagram.png)
+
+The image below represents the LISP Mapping Server highlight that 10.100.100.10 is behind LISP RLOC 192.168.100.100 and 10.100.100.20 is behind LSIP RLOC 192.168.200.200.  We have stretched/split a subnet between on-premises and Azure.  
+
+![alt text](https://github.com/jgmitter/images/blob/master/Annotation%202019-06-11%20152917.png)    
 
 # Contributing
 
