@@ -1,7 +1,5 @@
 # Azure and LISP for Workload Migration 
 
-## Azure and LISP for Workload Migration 
-
 Workload migrations to a public cloud such as Azure involve careful planning and coordination between multiple teams, including application, server, network, and storage teams.  
 One of the challenges the teams face is dealing with IP address changes.  An IP address change to an application can cause unnecessary complexity and delay to the project. For example, some applications, have IP addresses hard-coded, therefore, introduces risk with having to rewrite an application.  What if you could migrate workloads to Azure with IP mobility keeping the original IP address without network constraints?  IP mobility allows you to separate the workload migration from network limitations.  For instance, if the team can’t migrate all workloads within a subnet during a change window than the subnet can co-exist in your data center and Azure during the migration.   A migration team can migrate workloads in small groupings, enabling even a single-server migration. 
 
@@ -267,7 +265,7 @@ In order to test that the following works, you can try the following steps :
     1. ping the IP of the VMs from the local XTR (or vice-versa)
     1. wait for 60 seconds to see if the new IP of this newly created machine is reacheable from Azure
         
-Lab it up:
+## Lab it up:
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMicrosoft%2FAzure-LISP%2Fmaster%2Flisp_lab_iterate_through_vnet.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
